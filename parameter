@@ -1,0 +1,110 @@
+
+Design a class named Box whose dimensions are integers and private to the class. The dimensions are labelled: length , breadth , and height .
+
+The default constructor of the class should initialize , , and  to .
+
+The parameterized constructor Box(int length, int breadth, int height) should initialize Box's  and  to length, breadth and height.
+
+The copy constructor BoxBox ) should set  and  to 's  and , respectively.
+
+Apart from the above, the class should have  functions:
+
+int getLength() - Return box's length
+int getBreadth() - Return box's breadth
+int getHeight() - Return box's height
+long long CalculateVolume() - Return the volume of the box
+Overload the operator  for the class Box. Box   Box  if:
+
+ < 
+ <  and ==
+ <  and == and ==
+Overload operator  for the class Box().
+If  is an object of class Box:
+
+ should print ,  and  on a single line separated by spaces.
+
+For example,
+
+Box b1; // Should set b1.l = b1.b = b1.h = 0;
+Box b2(2, 3, 4); // Should set b1.l = 2, b1.b = 3, b1.h = 4;
+b2.getLength();	// Should return 2
+b2.getBreadth(); // Should return 3
+b2.getheight();	// Should return 4
+b2.CalculateVolume(); // Should return 24
+bool x = (b1 < b2);	// Should return true based on the conditions given
+cout<<b2; // Should print 2 3 4 in order.
+Constraints
+
+
+Two boxes being compared using the  operator will not have all three dimensions equal.
+
+Language
+C++11
+More
+38394041424344454647484950515253545556575859606162636465
+
+
+class Box {
+private:
+    int l, b, h;
+
+public:
+    // 1. Default Constructor
+    Box() {
+        l = 0;
+        b = 0;
+        h = 0;
+    }
+
+    // 2. Parameterized Constructor
+    Box(int length, int breadth, int height) {
+        l = length;
+        b = breadth;
+        h = height;
+    }
+
+    // 3. Copy Constructor (Must pass by reference to avoid infinite recursion)
+    Box(const Box& B) {
+        l = B.l;
+        b = B.b;
+        h = B.h;
+    }
+
+    // 4. Getter Functions
+    int getLength() {
+        return l;
+    }
+
+    int getBreadth() {
+        return b;
+    }
+
+    int getHeight() {
+        return h;
+    }
+
+    // 5. Volume Calculation (Cast to long long to prevent integer overflow)
+    long long CalculateVolume() {
+        return (long long)l * b * h;
+    }
+
+    // 6. Overloading < Operator
+    bool operator<(const Box& B) {
+        if (l < B.l) {
+            return true;
+        }
+        if (b < B.b && l == B.l) {
+            return true;
+        }
+        if (h < B.h && b == B.b && l == B.l) {
+            return true;
+        }
+        return false;
+    }
+
+    // 7. Overloading << Operator (Friend function to access private members)
+    friend ostream& operator<<(ostream& out, const Box& B) {
+        out << B.l << " " << B.b << " " << B.h;
+        return out;
+    }
+};
